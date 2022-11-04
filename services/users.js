@@ -190,6 +190,12 @@ class UserService {
     );
     return updateUserData;
   };
+
+  // 회원 탈퇴
+  deleteUserData = async (userId) => {
+    const deleteUserData = await this.usersRepository.deleteUserData(userId);
+    return deleteUserData;
+  };
 }
 
 module.exports = UserService;

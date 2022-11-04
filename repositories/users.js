@@ -1,4 +1,4 @@
-const { Users } = require("../models");
+const { Users, Posts, Comments } = require("../models");
 const { Op } = require("sequelize");
 
 class UsersRepository {
@@ -103,6 +103,14 @@ class UsersRepository {
       { where: { id: id, nickname, password } }
     );
     return updateUserData;
+  };
+
+  // 회원 탈퇴
+  deleteUserData = async (userId) => {
+    await Comments.destroy({ where: { userId } });
+    await Posts.destroy({ where: { userId } });
+    const deleteUserData = await Users.destroy({ where: { userId } });
+    return deleteUserData;
   };
 }
 
