@@ -4,9 +4,10 @@ class PostsService {
     postsRepository = new PostsRepository();
 
     createPosts = async(postId,userId, nickname, title, content, location, cafe, date, time, map, partyMember) => {
-        await this.postsRepository.createPosts(
+        const createPost = await this.postsRepository.createPosts(
             postId,userId, nickname, title, content, location, cafe, date, time, map, partyMember
         )
+        
         return;
     }
 
@@ -29,6 +30,8 @@ class PostsService {
         await this.postsRepository.deletePost(postId, userId);
         return
     }
+
+    
 }
 
 module.exports = PostsService;
