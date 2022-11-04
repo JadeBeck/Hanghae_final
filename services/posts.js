@@ -3,9 +3,9 @@ const PostsRepository = require("../repositories/posts");
 class PostsService {
     postsRepository = new PostsRepository();
 
-    createPosts = async(postId, nickname, title, content, location, cafe, date, time, map, partyMember) => {
+    createPosts = async(postId,userId, nickname, title, content, location, cafe, date, time, map, partyMember) => {
         await this.postsRepository.createPosts(
-            postId, nickname, title, content, location, cafe, date, time, map, partyMember
+            postId,userId, nickname, title, content, location, cafe, date, time, map, partyMember
         )
         return;
     }
@@ -13,6 +13,11 @@ class PostsService {
     findAllPosts = async() => {
         const findAllPosts = await this.postsRepository.findAllPosts();
         return findAllPosts;
+    }
+
+    findOnePosts = async(postId) => {
+        const findOnePosts = await this.postsRepository.findOnePosts(postId);
+        return findOnePosts;
     }
 }
 
