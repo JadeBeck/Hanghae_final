@@ -44,10 +44,10 @@ class UsersController {
 
 
       // accesstoken 생성
-      const accessToken = jwt.sign( { id: id }, process.env.SECRET_KEY, { expiresIn: "15m" });
+      const accessToken = jwt.sign( { id: id }, process.env.DB_SECRET_KEY, { expiresIn: "15m" });
 
       // refreshtoken 생성
-      const refresh_token = jwt.sign( {}, process.env.SECRET_KEY,{ expiresIn: "1d" });
+      const refresh_token = jwt.sign( {}, process.env.DB_SECRET_KEY,{ expiresIn: "1d" });
 
       // refreshtoken DB에 업데이트
       await this.usersService.updateToken(
