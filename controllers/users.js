@@ -121,6 +121,13 @@ class UsersController {
       });
     }
   };
+
+  // 회원 탈퇴
+  deleteUserData = async (req, res, next) => {
+    const { userId } = res.locals.user;
+    await this.usersService.deleteUserData(userId);
+    res.status(200).json({ ok: 1, statusCode: 200, message: "삭제 완료" });
+  };
 }
 
 module.exports = UsersController;
