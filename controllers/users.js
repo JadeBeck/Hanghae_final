@@ -15,6 +15,7 @@ class UsersController {
         confirm,
         address,
         likePlace,
+        birth,
         gender,
         likeGame,
       } = req.body;
@@ -26,6 +27,7 @@ class UsersController {
         confirm,
         address,
         likePlace,
+        birth,
         gender,
         likeGame
       );
