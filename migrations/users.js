@@ -21,6 +21,15 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
+      likePlace : {
+        type : Sequelize.STRING
+      },
+      gender : {
+        type : Sequelize.STRING
+      },
+      likeGame : {
+        type : Sequelize.STRING
+      },
       salt : {
         type : Sequelize.STRING
       },
