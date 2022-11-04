@@ -2,8 +2,8 @@ const { Posts } = require("../models");
 
 class PostsRepository {
     
-    createPosts = async( postId, userId, nickname, title, content, location, cafe, date, time, map, partyMember ) => {
-        await Posts.create({ postId, userId, nickname, title, content, location, cafe, date, time, map, partyMember });
+    createPosts = async( postId, nickname, title, content, location, cafe, date, time, map, partyMember ) => {
+        await Posts.create({ postId, nickname, title, content, location, cafe, date, time, map, partyMember });
         return;
     };
 
@@ -13,3 +13,5 @@ class PostsRepository {
     }
     
 }
+
+module.exports = PostsRepository;
