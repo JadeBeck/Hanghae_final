@@ -8,7 +8,7 @@ class UserService {
   usersRepository = new UsersRepository();
   
   // 회원가입 찾기위한 함수
-  signUp = async (id, nickname, password, confirm, address) => {
+  signUp = async (id, nickname, password, confirm, address, likePlace, gender, likeGame) => {
       // usersService 안에 있는 findUserAccount 함수를 이용해서 선언
       const isSameId = await this.usersRepository.findUserAccountId(id);
       const isSameNickname = await this.usersRepository.findUserAccountNick(nickname);
@@ -33,7 +33,7 @@ class UserService {
       if(!CHECK_ID.test(id)) {
         const err = new Error(`UserService Error`);
         err.status = 403;
-        err.message = '아이디는 최소 9글자 이상으로 해주세요.';
+        err.message = '아이디는 최소 9자리 이상으로 해주세요.';
         throw err;
       }
 
@@ -63,6 +63,9 @@ class UserService {
         nickname,
         Password,
         address,
+        likePlace,
+        gender,
+        likeGame,
         salt
       );
 
@@ -73,12 +76,22 @@ class UserService {
   login = async (id, password) => {
       // userRepository안에 있는 login 함수를 이용하여 선언
       const loginData = await this.usersRepository.login(id);
+
+      if (!loginData) {
+        const err = new Error(`UserService Error`);
+        err.status = 403;
+        err.message = "아이디를 확인해주세요.";
+        throw err; 
+      }
   
       let salt = loginData.salt
       let Password = crypto.pbkdf2Sync(password, salt, 100, 32, 'sha512').toString('base64')
 
-      if (!loginData.nickname || Password !== loginData.password) {
-        throw new Error("닉네임 또는 패스워드를 확인해주세요.");
+      if (Password !== loginData.password) {
+        const err = new Error(`UserService Error`);
+        err.status = 403;
+        err.message = "패스워드를 확인해주세요.";
+        throw err;  
       }                   
   
       return {loginData}
@@ -99,6 +112,12 @@ class UserService {
   getNickname = async(id, password) => {
     const getNickname = await this.usersRepository.findUserAccount(id, password);
     return getNickname;
+  }
+
+  // 회원 정보 불러오기
+  findUserData = async(id) => {
+    const findUserData = await this.usersRepository.findUserData(id);
+    return findUserData;
   }
 }
 
