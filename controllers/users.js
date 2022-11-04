@@ -20,7 +20,7 @@ class UsersController {
 
       res.status(201).json({ ok : true, statusCode : 201, message : "회원가입성공" });
     } catch(err) {
-      res.status(412).json({ ok : 0 , statusCode : 412, err : err.message} )
+      res.status(err.status || 400).json({ ok : 0 , statusCode : err.status, err : err.message})
     }
   }
 

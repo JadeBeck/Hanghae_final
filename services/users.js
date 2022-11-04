@@ -10,26 +10,47 @@ class UserService {
   // 회원가입 찾기위한 함수
   signUp = async (id, nickname, password, confirm, address) => {
       // usersService 안에 있는 findUserAccount 함수를 이용해서 선언
-      const isSameUser = await this.usersRepository.findUserAccount(id, nickname);
+      const isSameId = await this.usersRepository.findUserAccountId(id);
+      const isSameNickname = await this.usersRepository.findUserAccountNick(nickname);
 
-      // 유저 중복 검사
-      if (isSameUser) {
-        throw new Error("이미 가입된 이메일 혹은 닉네임이 존재합니다.")
+      // 유저 id 중복 검사
+      if (isSameId) {
+        const err = new Error(`UserService Error`);
+        err.status = 409;
+        err.message = '이미 가입된 아이디가 존재합니다.';
+        throw err;
+      }
+      
+      // 유저 nickname 중복 검사
+      if (isSameNickname) {
+        const err = new Error(`UserService Error`);
+        err.status = 409;
+        err.message = '이미 가입된 닉네임이 존재합니다.';
+        throw err;
       }
 
-      //이메일 형식이 아닐 경우
+      //아이디가 최소 9자리 아닐 경우
       if(!CHECK_ID.test(id)) {
-        throw new Error("아이디는 최소 9글자 이상으로 해주세요.")
+        const err = new Error(`UserService Error`);
+        err.status = 403;
+        err.message = '아이디는 최소 9글자 이상으로 해주세요.';
+        throw err;
       }
 
       // 비밀번호 최소치 안맞을 경우
       if(!CHECK_PASSWORD.test(password)) {
-        throw new Error("비밀번호는 최소 4자리수를 넘겨주세요")
+        const err = new Error(`UserService Error`);
+        err.status = 403;
+        err.message = "비밀번호는 최소 4자리수를 넘겨주세요";
+        throw err;
       }
 
       // 비밀번호와 비밀번호 확인이 안맞을 경우
-      if (password !== confirm) {                                    
-        throw new Error("비밀번호와 확인 비밀번호가 일치하지 않습니다.")
+      if (password !== confirm) {    
+        const err = new Error(`UserService Error`);
+        err.status = 403;
+        err.message = "비밀번호와 확인 비밀번호가 일치하지 않습니다.";
+        throw err;                                
       }
 
       let salt = crypto.randomBytes(32).toString('base64')

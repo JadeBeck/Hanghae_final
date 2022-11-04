@@ -17,14 +17,32 @@ class UsersRepository {
     return createAccountData;
   };
 
-  // 유저 정보 조회 by 이메일과 닉네임을 위한 함수
-  findUserAccount = async (id, nickname) => {
+  // // 유저 정보 조회 by 아이디와 닉네임을 위한 함수
+  // findUserAccount = async (id, nickname) => {
 
-    // findOne로 id, nickname으로 이루어진 정보가 있는지 확인
+  //   // findOne로 id, nickname으로 이루어진 정보가 있는지 확인
+  //   const findUserAccountData = await Users.findOne({
+  //     where: {
+  //       [Op.or]: [{ id }, { nickname }],
+  //     },
+  //   });
+  //   return findUserAccountData;
+  // };
+
+  findUserAccountId = async (id) => {
+
+    // findOne로 id  이루어진 정보가 있는지 확인
     const findUserAccountData = await Users.findOne({
-      where: {
-        [Op.or]: [{ id }, { nickname }],
-      },
+      where: {id},
+    });
+    return findUserAccountData;
+  };
+
+  findUserAccountNick = async (nickname) => {
+
+    // findOne로 id  이루어진 정보가 있는지 확인
+    const findUserAccountData = await Users.findOne({
+      where: {nickname},
     });
     return findUserAccountData;
   };
