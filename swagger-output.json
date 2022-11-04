@@ -1,0 +1,387 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "항해 마지막 프로젝트",
+    "description": "프론트 분들을 위한 스웨거 입니다.",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "회원 가입 및 로그인API",
+      "description": ""
+    },
+    {
+      "name": "회원정보 관련API",
+      "description": ""
+    },
+    {
+      "name": "게시물API",
+      "description": ""
+    },
+    {
+      "name": "댓글API",
+      "description": ""
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/users/signup": {
+      "post": {
+        "tags": ["회원 가입 및 로그인API"],
+        "description": "회원가입",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "아이디"
+                },
+                "nickname": {
+                  "example": "닉네임"
+                },
+                "password": {
+                  "example": "비밀번호"
+                },
+                "confirm": {
+                  "example": "확인비번"
+                },
+                "address": {
+                  "example": "주소"
+                },
+                "likePlace": {
+                  "example": "선호하는지역"
+                },
+                "birth": {
+                  "example": "생년월일"
+                },
+                "gender": {
+                  "example": "성별"
+                },
+                "likeGame": {
+                  "example": "선호하는게임"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "회원가입 완료했습니다."
+          },
+          "403": {
+            "description": "유효성 검사에 만족되지 않습니다."
+          },
+          "409": {
+            "description": "중복된 값이 존재합니다."
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["회원 가입 및 로그인API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "아이디"
+                },
+                "password": {
+                  "example": "비밀번호"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "로그인 완료했습니다."
+          },
+          "403": {
+            "description": "아이디, 비번이 제대로 만족되지 않습니다."
+          }
+        }
+      }
+    },
+    "/users/": {
+      "get": {
+        "tags": ["회원정보 관련API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "회원 정보 가져오기 성공하였습니다."
+          },
+          "401": {
+            "description": "로그인을 하시기 바랍니다."
+          }
+        }
+      },
+      "put": {
+        "tags": ["회원정보 관련API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "example": "비밀번호"
+                },
+                "confirm": {
+                  "example": "확인비번"
+                },
+                "address": {
+                  "example": "주소"
+                },
+                "likePlace": {
+                  "example": "선호하는지역"
+                },
+                "birth": {
+                  "example": "생년월일"
+                },
+                "gender": {
+                  "example": "성별"
+                },
+                "likeGame": {
+                  "example": "선호하는게임"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "수정이 완료되었습니다."
+          },
+          "401": {
+            "description": "로그인을 하시기 바랍니다."
+          },
+          "403": {
+            "description": "비밀번호 값을 제대로 넣지 않았습니다."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["회원정보 관련API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "회원 정보 삭제를 완료하였습니다."
+          },
+          "401": {
+            "description": "로그인을 하시기 바랍니다."
+          }
+        }
+      }
+    },
+    "/posts/": {
+      "post": {
+        "tags": ["게시물API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": ["게시물API"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/posts/{postId}": {
+      "get": {
+        "tags": ["게시물API"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      },
+      "put": {
+        "tags": ["게시물API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["게시물API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/comments/{postId}": {
+      "get": {
+        "tags": ["댓글API"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "tags": ["댓글API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/comments/{commentId}": {
+      "put": {
+        "tags": ["댓글API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["댓글API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  }
+}
