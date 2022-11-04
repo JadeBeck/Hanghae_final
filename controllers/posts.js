@@ -10,7 +10,7 @@ class PostsController {
         await this.postsService.createPosts( postId,userId, nickname, title, content, location, cafe, date, time, map, partyMember );
         res.json({message:"게시물 생성 완료"})
         }catch(e) {
-            res.json({message: e.message})
+            res.status(400).json({message: e.message})
         }
     }
 
@@ -20,24 +20,36 @@ class PostsController {
     }
 
     findOnePost = async (req, res, next) => {
+        try{
         const {postId} = req.params;
         const findOnePosts = await this.postsService.findOnePost(postId);
         res.json({ data : findOnePosts })
+        }catch(e){
+            res.status(400).json({message: e.message})
+        }
     }
 
     updatePost = async (req, res, next) => {
+        try{
         const { postId } = req.params;
         const { userId } = res.locals.user;
         const { title, content, location, cafe, date, time, map, partyMember } = req.body
         await this.postsService.updatePost(postId, userId, title, content, location, cafe, date, time, map, partyMember);
         res.json({ message : "게시물 수정을 완료하였습니다."})
+        }catch(e){
+            res.status(400).json({message : e.message})
+        }
     }
 
     deletePost = async(req, res, next) => {
+        try{
         const { postId } = req.params;
         const { userId } = res.locals.user;
         await this.postsService.deletePost(postId, userId);
         res.json({message:"게시물 삭제를 완료하였습니다."})
+        }catch(e){
+            res.status(400).json({message: e.message})
+        }
     }
 }
 
