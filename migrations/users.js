@@ -24,6 +24,9 @@ module.exports = {
       likePlace : {
         type : Sequelize.STRING
       },
+      birth : {
+        type : Sequelize.STRING
+      },
       gender : {
         type : Sequelize.STRING
       },

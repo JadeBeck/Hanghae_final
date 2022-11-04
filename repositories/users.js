@@ -9,6 +9,7 @@ class UsersRepository {
     password,
     address,
     likePlace,
+    birth,
     gender,
     likeGame,
     salt
@@ -20,6 +21,7 @@ class UsersRepository {
       password,
       address,
       likePlace,
+      birth,
       gender,
       likeGame,
       salt,
@@ -72,7 +74,7 @@ class UsersRepository {
 
   findUserData = async (id) => {
     const findUserData = await Users.findOne({
-      attributes: ["nickname", "likeGame", "gender", "likePlace"],
+      attributes: ["nickname", "likeGame", "birth", "gender", "likePlace"],
     });
     return findUserData;
   };

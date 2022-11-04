@@ -15,6 +15,7 @@ class UserService {
     confirm,
     address,
     likePlace,
+    birth,
     gender,
     likeGame
   ) => {
@@ -77,6 +78,7 @@ class UserService {
       Password,
       address,
       likePlace,
+      birth,
       gender,
       likeGame,
       salt
