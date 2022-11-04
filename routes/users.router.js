@@ -14,7 +14,9 @@ router.post('/login', usersController.login);
 
 // 내 정보 확인하기
 router.get('/', middleware, usersController.findUser)
+
 // 정보 수정하기
+router.put('/', middleware, usersController.updateUserData)
 
 // 회원 탈퇴하기
 

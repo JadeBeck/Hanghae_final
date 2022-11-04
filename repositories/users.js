@@ -72,11 +72,37 @@ class UsersRepository {
     return updateTokenData;
   };
 
+  // 회원 정보 확인하기
   findUserData = async (id) => {
     const findUserData = await Users.findOne({
       attributes: ["nickname", "likeGame", "birth", "gender", "likePlace"],
+      where: { id },
     });
     return findUserData;
+  };
+
+  // 회원 정보 변경하기
+  updateUserData = async (
+    id,
+    nickname,
+    password,
+    address,
+    likePlace,
+    birth,
+    gender,
+    likeGame
+  ) => {
+    const updateUserData = await Users.update(
+      {
+        address: address,
+        likePlace: likePlace,
+        birth: birth,
+        gender: gender,
+        likeGame: likeGame,
+      },
+      { where: { id: id, nickname, password } }
+    );
+    return updateUserData;
   };
 }
 

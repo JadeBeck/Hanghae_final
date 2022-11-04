@@ -51,13 +51,11 @@ class UsersController {
       const login = await this.usersService.login(id, password);
 
       if (login === null)
-        return res
-          .status(404)
-          .send({
-            ok: 0,
-            statusCode: 404,
-            errorMessage: "가입 정보를 찾을 수 없습니다",
-          });
+        return res.status(404).send({
+          ok: 0,
+          statusCode: 404,
+          errorMessage: "가입 정보를 찾을 수 없습니다",
+        });
 
       await this.usersService.login(id, password);
 
@@ -76,28 +74,52 @@ class UsersController {
       // refreshtoken DB에 업데이트
       await this.usersService.updateToken(id, refresh_token);
 
-      res
-        .status(201)
-        .json({
-          accessToken: `Bearer ${accessToken}`,
-          refresh_token: `Bearer ${refresh_token}`,
-          nickname: getNickname.nickname,
-        });
+      res.status(201).json({
+        accessToken: `Bearer ${accessToken}`,
+        refresh_token: `Bearer ${refresh_token}`,
+        nickname: getNickname.nickname,
+      });
     } catch (err) {
-      res
-        .status(err.status || 400)
-        .json({
-          ok: 0,
-          statusCode: err.status,
-          message: err.message || "로그인 실패",
-        });
+      res.status(err.status || 400).json({
+        ok: 0,
+        statusCode: err.status,
+        message: err.message || "로그인 실패",
+      });
     }
   };
 
+  // 회원 정보 찾기
   findUser = async (req, res, next) => {
     const { id } = res.locals.user;
     const findUser = await this.usersService.findUserData(id);
     res.status(200).json({ findUser });
+  };
+
+  // 회원 정보 변경
+  updateUserData = async (req, res, next) => {
+    try {
+      const { id, nickname } = res.locals.user;
+      const { password, confirm, address, likePlace, birth, gender, likeGame } =
+        req.body;
+      await this.usersService.updateUserData(
+        id,
+        nickname,
+        password,
+        confirm,
+        address,
+        likePlace,
+        birth,
+        gender,
+        likeGame
+      );
+      res.status(200).json({ ok: 1, statusCode: 200, message: "수정 완료" });
+    } catch (err) {
+      res.status(err.status || 400).json({
+        ok: 0,
+        statusCode: err.status,
+        message: err.message || "수정 실패",
+      });
+    }
   };
 }
 
