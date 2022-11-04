@@ -12,9 +12,22 @@ class PostsRepository {
         return findAllPosts;
     }
     
-    findOnePosts = async(postId) => {
+    findOnePost = async(postId) => {
         const findOnePosts = await Posts.findOne({where:{postId}})
         return findOnePosts;
+    }
+
+    updatePost = async(postId, userId, title, content, location, cafe, date, time, map, partyMember) => {
+        await Posts.update(
+            {title, content, location, cafe, date, time, map, partyMember},
+            {where:{postId, userId}}
+        )
+        return 
+    }
+
+    deletePost = async(postId, userId) => {
+        await Posts.destroy({where:{postId, userId}});
+        return
     }
 }
 
