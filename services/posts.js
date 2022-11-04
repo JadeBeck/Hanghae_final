@@ -3,9 +3,9 @@ const PostsRepository = require("../repositories/posts");
 class PostsService {
     postsRepository = new PostsRepository();
 
-    createPosts = async(postId, userId, nickname, title, content, location, cafe, date, time, map, partyMember) => {
+    createPosts = async(postId, nickname, title, content, location, cafe, date, time, map, partyMember) => {
         await this.postsRepository.createPosts(
-            postId, userId, nickname, title, content, location, cafe, date, time, map, partyMember
+            postId, nickname, title, content, location, cafe, date, time, map, partyMember
         )
         return;
     }
