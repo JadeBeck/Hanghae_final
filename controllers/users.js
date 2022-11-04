@@ -8,13 +8,14 @@ class UsersController {
   // 회원가입
   signUp = async (req, res, next) => {
     try {
-      const { email, nickname, password, confirmPassword } = req.body;
+      const { id, nickname, password, confirm, address } = req.body;
     
       await this.usersService.signUp(
-        email,
+        id,
         nickname,
         password,
-        confirmPassword
+        confirm,
+        address
       );
 
       res.status(201).json({ ok : true, statusCode : 201, message : "회원가입성공" });
@@ -26,31 +27,31 @@ class UsersController {
   //로그인
   login = async (req, res, next) => {
     try {
-      const { email, password } = req.body;
+      const { id, password } = req.body;
 
       // 유효성 검사
-      const login = await this.usersService.login(email, password);
+      const login = await this.usersService.login(id, password);
       
       if (login === null)
       return res.status(404).send({ ok : 0, statusCode : 404, errorMessage: "가입 정보를 찾을 수 없습니다" });
 
       await this.usersService.login(
-        email,
+        id,
         password
       );
       
-      const getNickname = await this.usersService.getNickname(email, password);
+      const getNickname = await this.usersService.getNickname(id, password);
 
 
       // accesstoken 생성
-      const accessToken = jwt.sign( { email: email }, process.env.SECRET_KEY, { expiresIn: "15m" });
+      const accessToken = jwt.sign( { id: id }, process.env.SECRET_KEY, { expiresIn: "15m" });
 
       // refreshtoken 생성
       const refresh_token = jwt.sign( {}, process.env.SECRET_KEY,{ expiresIn: "1d" });
 
       // refreshtoken DB에 업데이트
       await this.usersService.updateToken(
-        email,
+        id,
         refresh_token
       );
   

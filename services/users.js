@@ -1,16 +1,16 @@
-const UsersRepository = require("../repository/users");  
+const UsersRepository = require("../repositories/users");  
 const crypto = require('crypto');
 const CHECK_PASSWORD = /^[a-zA-Z0-9]{4,30}$/
-const EMAIL_VALIDATION =/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*[.][a-zA-Z]{2,3}$/i;
+const CHECK_ID = /^[a-zA-Z0-9]{9,20}$/
 
 class UserService {
   // 새 인스턴스 생성
   usersRepository = new UsersRepository();
   
   // 회원가입 찾기위한 함수
-  signUp = async (email, nickname, password, confirmPassword) => {
+  signUp = async (id, nickname, password, confirm, address) => {
       // usersService 안에 있는 findUserAccount 함수를 이용해서 선언
-      const isSameUser = await this.usersRepository.findUserAccount(email, nickname);
+      const isSameUser = await this.usersRepository.findUserAccount(id, nickname);
 
       // 유저 중복 검사
       if (isSameUser) {
@@ -18,8 +18,8 @@ class UserService {
       }
 
       //이메일 형식이 아닐 경우
-      if(!EMAIL_VALIDATION.test(email)) {
-        throw new Error("이메일 형식을 맞춰주세요")
+      if(!CHECK_ID.test(id)) {
+        throw new Error("아이디는 최소 9글자 이상으로 해주세요.")
       }
 
       // 비밀번호 최소치 안맞을 경우
@@ -28,7 +28,7 @@ class UserService {
       }
 
       // 비밀번호와 비밀번호 확인이 안맞을 경우
-      if (password !== confirmPassword) {                                    
+      if (password !== confirm) {                                    
         throw new Error("비밀번호와 확인 비밀번호가 일치하지 않습니다.")
       }
 
@@ -38,9 +38,10 @@ class UserService {
 
       // userRepository안에 있는 createAccount 함수를 이용하여 선언 (salt도 넣어야함)
       const createAccountData = await this.usersRepository.signUp(
-        email,
+        id,
         nickname,
         Password,
+        address,
         salt
       );
 
@@ -48,9 +49,9 @@ class UserService {
   };
 
   // 로그인 찾기위한 함수
-  login = async (email, password) => {
+  login = async (id, password) => {
       // userRepository안에 있는 login 함수를 이용하여 선언
-      const loginData = await this.usersRepository.login(email);
+      const loginData = await this.usersRepository.login(id);
   
       let salt = loginData.salt
       let Password = crypto.pbkdf2Sync(password, salt, 100, 32, 'sha512').toString('base64')
@@ -64,18 +65,18 @@ class UserService {
   };
 
   // refreshToken 업데이트 하는 함수
-  updateToken = async(email, refresh_token) => {
+  updateToken = async(id, refresh_token) => {
     // console.log(refresh_Token)
-    await this.usersRepository.updateToken(email, refresh_token);
+    await this.usersRepository.updateToken(id, refresh_token);
     
-    const findData = await this.usersRepository.findUserAccount(email, refresh_token);
+    const findData = await this.usersRepository.findUserAccount(id, refresh_token);
 
     return  findData;
   };
 
   // nickname 불러오기
-  getNickname = async(email, password) => {
-    const getNickname = await this.usersRepository.findUserAccount(email, password);
+  getNickname = async(id, password) => {
+    const getNickname = await this.usersRepository.findUserAccount(id, password);
     return getNickname;
   }
 }
