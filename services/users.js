@@ -141,6 +141,55 @@ class UserService {
     const findUserData = await this.usersRepository.findUserData(id);
     return findUserData;
   };
+
+  // 회원 정보 업데이트
+  updateUserData = async (
+    id,
+    nickname,
+    password,
+    confirm,
+    address,
+    likePlace,
+    birth,
+    gender,
+    likeGame
+  ) => {
+    // 비밀번호 안 적을 경우
+    if (!password) {
+      const err = new Error(`UserService Error`);
+      err.status = 403;
+      err.message = "비밀번호를 입력해주세요";
+      throw err;
+    }
+
+    // 비밀번호와 비밀번호 확인이 안맞을 경우
+    if (password !== confirm) {
+      const err = new Error(`UserService Error`);
+      err.status = 403;
+      err.message = "비밀번호와 확인 비밀번호가 일치하지 않습니다.";
+      throw err;
+    }
+
+    // 암호화 풀기 위해서 가져옴
+    const loginData = await this.usersRepository.login(id);
+
+    let salt = loginData.salt;
+    let Password = crypto
+      .pbkdf2Sync(password, salt, 100, 32, "sha512")
+      .toString("base64");
+
+    const updateUserData = await this.usersRepository.updateUserData(
+      id,
+      nickname,
+      Password,
+      address,
+      likePlace,
+      birth,
+      gender,
+      likeGame
+    );
+    return updateUserData;
+  };
 }
 
 module.exports = UserService;
