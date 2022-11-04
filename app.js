@@ -19,6 +19,7 @@ app.use(express.json());
 
 app.use("/", routes);
 
-app.listen(3000, () => {
-  console.log("3000번 포트로 열렸습니다");
+const port = 3001;
+app.listen(port, () => {
+  console.log(`${port}번 포트로 열렸습니다`);
 });
