@@ -29,7 +29,7 @@ module.exports = async (req, res, next) => {
     if (myToken == "jwt expired") {
 
       // accessToken을 디코드
-      const userInfo = jwt.decode(tokenValue, process.env.SECRET_KEY);
+      const userInfo = jwt.decode(tokenValue, process.env.DB_SECRET_KEY);
 
       // 디코드 한 값에서 이메일 가져와서 선언
       const id = userInfo.id;
@@ -49,7 +49,7 @@ module.exports = async (req, res, next) => {
       } else {
         const myNewToken = jwt.sign(
           { id: id },
-          process.env.SECRET_KEY,
+          process.env.DB_SECRET_KEY,
           {
             expiresIn: "15m",
           }
@@ -58,7 +58,7 @@ module.exports = async (req, res, next) => {
         }
       });
     } else {
-      const {id} = jwt.verify(tokenValue, process.env.SECRET_KEY);
+      const {id} = jwt.verify(tokenValue, process.env.DB_SECRET_KEY);
       const user = await Users.findAll({where : {id}})
       res.locals.user = user[0].dataValues;
       next();
@@ -70,7 +70,7 @@ module.exports = async (req, res, next) => {
 
 function verifyToken(token) {
   try {
-    return jwt.verify(token, process.env.SECRET_KEY);
+    return jwt.verify(token, process.env.DB_SECRET_KEY);
   } catch (error) {
     return error.message;
   }
