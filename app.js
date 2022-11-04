@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-// const routes = require("./routes");
+const routes = require("./routes");
 
 // const swaggerFile = require("./swagger-output");
 // const swaggerUi = require("swagger-ui-express");
@@ -17,7 +17,7 @@ app.use(express.json());
 //   swaggerUi.setup(swaggerFile, { explorer: true })
 // );
 
-// app.use("/", routes);
+app.use("/", routes);
 
 app.listen(3000, () => {
   console.log("3000번 포트로 열렸습니다");
