@@ -7,9 +7,9 @@ const postsController = new PostsController();
 
 router.post("/",authMiddleware, postsController.createPosts);
 router.get("/", postsController.findAllPosts);
-router.get("/:postId", postsController.findOnePosts);
-// router.put("/:postId",authMiddleware, postsController.updateProduct);
-// router.delete("/:postId", authMiddleware, postsController.deleteProduct)
+router.get("/:postId", postsController.findOnePost);
+router.put("/:postId",authMiddleware, postsController.updatePost);
+router.delete("/:postId", authMiddleware, postsController.deletePost)
 
 
 module.exports = router;
